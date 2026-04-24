@@ -14,7 +14,6 @@
 **/out-tsc/
 npm-debug.log
 yarn-error.log
-package-lock.json
 
 # Python
 **/__pycache__/
