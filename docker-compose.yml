@@ -24,8 +24,8 @@ services:
       - ConnectionStrings__DefaultConnection=Host=db;Database=SaaS_Portfolio;Username=postgres;Password=supersecretpassword
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:8080
-    ports:
-      - "8080:8080"
+    expose:
+      - 8080
     depends_on:
       db:
         condition: service_started
@@ -33,6 +33,7 @@ services:
       - uploads_data:/app/wwwroot/uploads
     labels:
       - "coolify.managed=true"
+      - "traefik.http.services.api.loadbalancer.server.port=8080"
 
   reservation-api:
     build:
@@ -42,8 +43,10 @@ services:
       - DATABASE_URL=postgresql://postgres:supersecretpassword@db:5432/reservation_db
       - JWT_SECRET_KEY=super-secret-key-change-it
       - SECRET_KEY=another-secret-key
-    ports:
-      - "5000:5000"
+    expose:
+      - 5000
+    labels:
+      - "traefik.http.services.reservation-api.loadbalancer.server.port=5000"
     depends_on:
       db:
         condition: service_started
