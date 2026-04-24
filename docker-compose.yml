@@ -1,40 +1,33 @@
-
 services:
   db:
     image: postgres:15-alpine
-    container_name: saas_postgres_db
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: supersecretpassword
       POSTGRES_DB: SaaS_Portfolio
-    ports:
-      - "5433:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./database/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
-    restart: always
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
       timeout: 5s
       retries: 5
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    restart: always
 
-  # API
   api:
     build:
       context: .
-      dockerfile: ./Backend/Dockerfile
+      dockerfile: Dockerfile
     environment:
       - ConnectionStrings__DefaultConnection=Host=db;Database=SaaS_Portfolio;Username=postgres;Password=supersecretpassword
-    ports:
-      - "8082:8080"
-    volumes:
-      - uploads_data:/app/wwwroot/uploads
+      - ASPNETCORE_ENVIRONMENT=Production
     depends_on:
       db:
         condition: service_healthy
+    labels:
+      - "coolify.managed=true"
 
-  # ReserveLink API (Python)
   reservation-api:
     build:
       context: ./Apps/ReserveLink
@@ -43,19 +36,16 @@ services:
       - DATABASE_URL=postgresql://postgres:supersecretpassword@db:5432/reservation_db
       - JWT_SECRET_KEY=super-secret-key-change-it
       - SECRET_KEY=another-secret-key
-    ports:
-      - "8083:5000"
     depends_on:
       db:
         condition: service_healthy
 
-  # Frontend
   frontend:
     build:
       context: .
       dockerfile: ./Frontend/Dockerfile
-    ports:
-      - "8081:80"
+    depends_on:
+      - api
 
 volumes:
   postgres_data:
