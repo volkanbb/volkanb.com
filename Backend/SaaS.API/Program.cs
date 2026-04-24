@@ -73,7 +73,7 @@ if (app.Environment.IsDevelopment())
 }
 
 // Create uploads directory if it doesn't exist
-var rootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+var rootPath = Path.Combine(app.Environment.ContentRootPath, "wwwroot");
 var uploadsPath = Path.Combine(rootPath, "uploads");
 if (!Directory.Exists(uploadsPath))
 {
@@ -83,8 +83,12 @@ if (!Directory.Exists(uploadsPath))
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(rootPath),
-    RequestPath = ""
-}); // Enforce static files
+    RequestPath = "/api",
+    OnPrepareResponse = ctx =>
+    {
+        ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=31536000");
+    }
+}); // Enforce static files under /api
 
 app.UseAuthentication();
 app.UseAuthorization();
