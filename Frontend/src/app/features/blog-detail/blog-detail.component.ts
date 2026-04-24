@@ -4,7 +4,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
 import { FooterComponent } from '../../shared/components/footer/footer.component';
 import { AdminService } from '../../core/services/admin.service';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 import { Title, Meta } from '@angular/platform-browser';
 
 @Component({

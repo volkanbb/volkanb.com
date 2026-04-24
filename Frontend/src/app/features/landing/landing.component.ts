@@ -6,7 +6,7 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
 import { FooterComponent } from '../../shared/components/footer/footer.component';
 import { AdminService } from '../../core/services/admin.service';
 import { DomSanitizer, SafeHtml, Title, Meta } from '@angular/platform-browser';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-landing',
