@@ -9,14 +9,18 @@ from datetime import datetime, timedelta
 import random
 
 def seed():
-    # Check if data already exists
-    if User.query.first():
-        print("Database already contains data. Skipping seed.")
-        return
-
     # Create tables if not exist
     print("Creating tables...")
     db.create_all()
+
+    # Check if data already exists
+    try:
+        if User.query.first():
+            print("Database already contains data. Skipping seed.")
+            return
+    except Exception:
+        # If query fails, we assume tables were just created and proceed to seed
+        pass
 
     print("Seeding database...")
 
