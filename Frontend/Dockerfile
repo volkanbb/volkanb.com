@@ -2,10 +2,10 @@
 FROM node:20-alpine AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN npm ci --quiet
 COPY . ./
-ENV NODE_OPTIONS="--max-old-space-size=4096"
-RUN npm run build -- --configuration production
+ENV NODE_OPTIONS="--max-old-space-size=2048"
+RUN npm run build -- --configuration production || (npm run build -- --configuration production --verbose && exit 1)
 
 # Stage 2: Serve the application with Nginx
 FROM nginx:alpine
