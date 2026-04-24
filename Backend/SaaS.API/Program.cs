@@ -61,12 +61,15 @@ builder.Services.AddScoped<IDemoProjectRepository, DemoProjectRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-app.UseCors("AllowAll"); // MOVE TO TOP
+app.UseCors("AllowAll"); 
+
+// Enable Swagger in Production for debugging
+app.UseSwagger();
+app.UseSwaggerUI();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    // Development specific settings
 }
 
 // Create uploads directory if it doesn't exist
