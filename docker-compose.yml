@@ -6,10 +6,11 @@ services:
       POSTGRES_PASSWORD: supersecretpassword
       POSTGRES_DB: SaaS_Portfolio
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 5s
+      test: ["CMD-SHELL", "pg_isready -U postgres -d SaaS_Portfolio"]
+      interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 15s
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./database/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
@@ -24,7 +25,9 @@ services:
       - ASPNETCORE_ENVIRONMENT=Production
     depends_on:
       db:
-        condition: service_healthy
+        condition: service_started
+    volumes:
+      - uploads_data:/app/wwwroot/uploads
     labels:
       - "coolify.managed=true"
 
@@ -38,7 +41,7 @@ services:
       - SECRET_KEY=another-secret-key
     depends_on:
       db:
-        condition: service_healthy
+        condition: service_started
 
   frontend:
     build:
