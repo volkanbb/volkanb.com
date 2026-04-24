@@ -112,7 +112,7 @@ public class AppDbContext : DbContext
                 Id = 1, 
                 Title = "Kuaför & Salon Yönetimi", 
                 Description = "Güzellik merkezleri için premium randevu ve vitrin sistemi.", 
-                Link = "http://kuafor.localhost", 
+                Link = "https://kuafor.volkanb.com", 
                 ImageUrl = "https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=800" 
             },
             new DemoProject 
@@ -120,7 +120,7 @@ public class AppDbContext : DbContext
                 Id = 2, 
                 Title = "Restoran & Kafe Dijital Menü", 
                 Description = "QR menü ve rezervasyon odaklı lüks restoran deneyimi.", 
-                Link = "http://kafe.localhost", 
+                Link = "https://kafe.volkanb.com", 
                 ImageUrl = "https://images.unsplash.com/photo-1550966841-3ee212df880a?q=80&w=600" 
             },
             new DemoProject 
@@ -136,7 +136,7 @@ public class AppDbContext : DbContext
                 Id = 4, 
                 Title = "ReserveLink | Hibrit Rezervasyon", 
                 Description = "Modern otel ve hizmet odaklı hibrit rezervasyon yönetim platformu.", 
-                Link = "http://localhost:5001", 
+                Link = "https://res.volkanb.com", 
                 ImageUrl = "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=800"
             }
         );
