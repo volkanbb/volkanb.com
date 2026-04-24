@@ -42,7 +42,7 @@ import { environment } from '../../../environments/environment';
               </div>
             </div>
             <div class="hero-image-block" [style.--scroll-p]="scrollProgress">
-              <img src="hero_mockup.png" class="hero-img" alt="VolkanB Dijital Çözümler Mockup - Web Tasarım ve Yazılım" />
+              <img src="hero_mockup.png" class="hero-img" alt="VolkanB Dijital Çözümler Mockup - Web Tasarım ve Full Stack Yazılım Geliştirme" loading="eager" />
             </div>
           </div>
         </section>
@@ -61,8 +61,8 @@ import { environment } from '../../../environments/environment';
             </div>
             <div class="slider-wrapper-projects relative" [hidden]="demoProjects.length === 0">
               <div class="slider-controls absolute-controls" *ngIf="projectGroups.length > 1">
-                <button (click)="scroll(projectSlider, -1)" class="btn-scroll btn-prev"><span class="material-symbols-outlined">west</span></button>
-                <button (click)="scroll(projectSlider, 1)" class="btn-scroll btn-next"><span class="material-symbols-outlined">east</span></button>
+                <button (click)="scroll(projectSlider, -1)" class="btn-scroll btn-prev" aria-label="Önceki Projeler"><span class="material-symbols-outlined">west</span></button>
+                <button (click)="scroll(projectSlider, 1)" class="btn-scroll btn-next" aria-label="Sonraki Projeler"><span class="material-symbols-outlined">east</span></button>
               </div>
               <div class="projects-slider-container" #projectSlider>
                 <!-- Group Slide (4 Items) -->
@@ -76,7 +76,7 @@ import { environment } from '../../../environments/environment';
                          'bento-small-2': j === 3
                        }">
                     <div class="card-img-wrapper">
-                      <img [src]="getImageUrl(proj.imageUrl)" [alt]="proj.title" class="project-img"/>
+                      <img [src]="getImageUrl(proj.imageUrl)" [alt]="proj.title + ' - VolkanB Proje Detayı'" class="project-img" loading="lazy"/>
                     </div>
                     <div class="card-content flex-grow">
                       <div class="card-header-flex">
@@ -138,7 +138,7 @@ import { environment } from '../../../environments/environment';
                   </div>
                 </div>
                 <div class="identity-actions mt-10" *ngIf="cvUrl">
-                  <a [href]="getImageUrl(cvUrl)" target="_blank" class="btn-outline w-full flex-center gap-2" style="padding: 1.25rem; border-radius: 16px; font-size: 0.9rem; width: 100%;">
+                  <a [href]="getImageUrl(cvUrl)" target="_blank" rel="noopener" class="btn-outline w-full flex-center gap-2" style="padding: 1.25rem; border-radius: 16px; font-size: 0.9rem; width: 100%;" title="VolkanB Özgeçmiş İndir - PDF">
                     <span class="material-symbols-outlined">description</span>
                     Özgeçmişimi İndir (.PDF)
                   </a>
@@ -188,13 +188,13 @@ import { environment } from '../../../environments/environment';
               <div class="slider-container" #blogSlider>
                 <div class="slider-card outline-border" *ngFor="let post of blogPosts">
                   <div class="card-img-wrapper" style="height:200px;">
-                    <img class="project-img" [src]="post.imageUrl ? getImageUrl(post.imageUrl) : 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=600'" [alt]="post.title + ' - VolkanB Blog'" />
+                    <img class="project-img" [src]="post.imageUrl ? getImageUrl(post.imageUrl) : 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=600'" [alt]="post.title + ' - VolkanB Geliştirici Günlüğü'" loading="lazy" />
                   </div>
                   <div class="card-content flex-grow flex-col">
                     <span class="date-tag">{{post.createdAt | date}}</span>
                     <h3 class="card-title">{{post.title}}</h3>
                     <p class="card-desc flex-grow mb-6">{{post.summary}}</p>
-                    <a [routerLink]="['/blog', post.id]" class="card-link">Devamını Oku <span class="material-symbols-outlined link-icon">arrow_outward</span></a>
+                    <a [routerLink]="['/blog', post.id]" class="card-link" [title]="post.title + ' yazısını oku'">Devamını Oku <span class="material-symbols-outlined link-icon">arrow_outward</span></a>
                   </div>
                 </div>
               </div>
@@ -223,7 +223,7 @@ import { environment } from '../../../environments/environment';
                     </a>
                   </div>
                   <div class="method-item" *ngIf="contactInfo?.content">
-                    <a [href]="'https://wa.me/' + contactInfo.content" target="_blank" class="flex items-center gap-6 group no-underline">
+                    <a [href]="'https://wa.me/' + contactInfo.content" target="_blank" rel="noopener" class="flex items-center gap-6 group no-underline" title="VolkanB ile WhatsApp üzerinden iletişime geç">
                       <div class="icon-circle bg-surface outline-border group-hover:border-primary transition-all duration-300">
                         <span class="material-symbols-outlined">chat_bubble</span>
                       </div>
@@ -266,8 +266,10 @@ import { environment } from '../../../environments/environment';
           <a *ngFor="let m of socialMedias" 
              [href]="m.url" 
              target="_blank" 
+             rel="noopener"
              class="stack-btn dynamic-social-btn" 
-             [style.--brand-color]="m.brandColor">
+             [style.--brand-color]="m.brandColor"
+             [title]="m.platformName + ' üzerinden bağlan'">
             <div class="svg-icon" [innerHTML]="m.safeIcon"></div>
             <span class="btn-tooltip">{{m.platformName}}</span>
           </a>
@@ -352,6 +354,49 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
       this.demoProjects = res;
     });
     this.adminService.getPortfolioServices().subscribe(res => this.portfolioServices = res);
+    this.addStructuredData();
+  }
+
+  addStructuredData() {
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.text = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "VolkanB - Dijital Mimar & Geliştirici",
+      "image": "https://volkanb.com/hero_mockup.png",
+      "@id": "https://volkanb.com",
+      "url": "https://volkanb.com",
+      "telephone": "+905000000000",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Antalya",
+        "addressCountry": "TR"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 36.8841,
+        "longitude": 30.7056
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday"
+        ],
+        "opens": "09:00",
+        "closes": "22:00"
+      },
+      "sameAs": [
+        "https://www.linkedin.com/in/volkanb",
+        "https://github.com/volkanbb"
+      ]
+    });
+    document.head.appendChild(script);
   }
 
   ngAfterViewInit() {
