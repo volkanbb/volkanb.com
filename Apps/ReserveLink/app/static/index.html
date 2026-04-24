@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReserveLink | Lüks Hizmet & Rezervasyon Sistemi</title>
+    <meta name="description" content="Lüks otel stili hizmetlerimizden yararlanmak için kolayca rezervasyon yapın.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Style -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    
+    <nav>
+        <div class="container">
+            <a href="#services" class="logo">RESERVE<span>LINK</span></a>
+            <ul class="nav-links" id="nav-links">
+                <!-- Dinamik Linkler -->
+            </ul>
+            <div id="auth-buttons">
+                <!-- Dinamik Butonlar -->
+            </div>
+        </div>
+    </nav>
+
+    <main id="app-root">
+        <div class="container" style="padding-top: 5rem; text-align: center;">
+            <p>Hizmetlerimiz Yükleniyor...</p>
+        </div>
+    </main>
+
+    <footer style="background: #1a1a1a; color: #888; padding: 4rem 0; margin-top: 5rem;">
+        <div class="container" style="text-align: center;">
+            <h2 style="color: white; margin-bottom: 1rem;">RESERVELINK</h2>
+            <p style="margin-bottom: 2rem;">Lüks ve konforun buluştuğu tek adres.</p>
+            <hr style="border: 0; border-top: 1px solid #333; margin-bottom: 2rem;">
+            <p>&copy; 2026 ReserveLink. Tüm Hakları Saklıdır.</p>
+        </div>
+    </footer>
+
+    <!-- Modal System -->
+    <div id="modal-overlay" class="modal-overlay">
+        <div id="modal-content" class="modal-content">
+            <!-- Dinamik İçerik -->
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="/static/js/api.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+# Node & Dependencies
+**/node_modules/
+**/npm-debug.log
+**/yarn-error.log
+
+# Angular build outputs
+**/dist/
+**/out-tsc/
+**/.angular/
+
+# .NET / C# builds / publish
+**/bin/
+**/obj/
+**/Publish/
+**/.vs/
+**/.vscode/
+
+# Environment / Secrets
+.env
+appsettings.Development.json
+appsettings.Production.json
+
+# Git
+.git/
+
+# Docker
+docker-compose.override.yml
+*.dockerfile

@@ -1,0 +1,55 @@
+<div class="lucid-theme">
+  <!-- Sticky Progress Bar -->
+  <div class="reading-progress-container" *ngIf="post">
+    <div class="progress-bar" [style.width.%]="scrollProgress"></div>
+  </div>
+
+  <app-navbar businessName="VOLKANB" [isDemo]="false" [email]="contactInfo?.title" [phone]="contactInfo?.content">
+    <a routerLink="/" fragment="home">Ana Sayfa</a>
+    <a routerLink="/" fragment="projects">Örnek Projeler</a>
+    <a routerLink="/" fragment="about">Hakkımda</a>
+    <a routerLink="/" fragment="blog" class="active">Blog</a>
+  </app-navbar>
+
+  <main class="blog-detail-wrapper" *ngIf="post">
+    <!-- Clean Header -->
+    <header class="blog-header relative overflow-hidden">
+      <div class="bg-blur blur-primary top-left"></div>
+      
+      <div class="section-container relative z-10">
+        <div class="article-header-box text-left">
+          <div class="flex justify-start mb-10">
+            <a routerLink="/" class="back-link-premium">
+              <span class="material-symbols-outlined">arrow_back</span>
+              Geri Dön
+            </a>
+          </div>
+          
+          <div class="article-meta flex items-center justify-start gap-4">
+            <span class="meta-tag">{{post.createdAt | date:'longDate'}}</span>
+            <span class="meta-dot"></span>
+            <span class="meta-tag reading-time">{{readingTime}} dk okuma</span>
+          </div>
+
+          <h1 class="article-title">{{post.title}}</h1>
+          
+          <p class="article-summary" *ngIf="post.summary">{{post.summary}}</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Medium-style Article Body -->
+    <article class="blog-article-content">
+      <div class="article-featured-image" *ngIf="post.imageUrl">
+        <img [src]="getImageUrl(post.imageUrl)" [alt]="post.title" />
+      </div>
+
+      <div class="article-body-text" [innerHTML]="post.content">
+      </div>
+      
+      <div class="article-footer-divider"></div>
+    </article>
+  </main>
+
+  <app-footer *ngIf="post"></app-footer>
+</div>

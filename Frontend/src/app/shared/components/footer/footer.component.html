@@ -1,0 +1,68 @@
+<footer class="lucid-footer">
+  <div class="footer-container">
+    <div class="footer-grid">
+      <!-- Column 1: Brand -->
+      <div class="footer-col brand-col">
+        <span class="logo-footer">VOLKANB</span>
+        <p class="footer-tagline">{{tagline}}</p>
+        <span class="copyright">© 2026 Tüm Hakları Saklıdır.</span>
+      </div>
+
+      <!-- Column 2: Quick Links -->
+      <div class="footer-col">
+        <h4 class="footer-heading">Hızlı Linkler</h4>
+        <ul class="footer-links-list">
+          <li *ngFor="let link of siteLinks; let i = index">
+            <a [href]="link.url" [id]="'footer-link-' + i">{{ link.label }}</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Blog Archive -->
+      <div class="footer-col" *ngIf="recentBlogs.length > 0">
+        <h4 class="footer-heading">Blog Arşivi</h4>
+        <ul class="footer-links-list archive-list">
+          <li *ngFor="let post of recentBlogs">
+            <a [routerLink]="['/blog', post.id]" class="archive-item">
+              <span class="archive-title">{{ post.title }}</span>
+              <span class="archive-date">{{ post.createdAt | date:'MMM d, y' }}</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Column 4: Social Media -->
+      <div class="footer-col" *ngIf="socialMedias.length > 0">
+        <h4 class="footer-heading">Takipte Kalın</h4>
+        <div class="social-grid">
+          <a *ngFor="let m of socialMedias" 
+             [href]="m.url" 
+             target="_blank" 
+             class="social-btn">
+            <span class="svg-icon-small" [innerHTML]="m.safeIcon" [style.color]="m.brandColor"></span>
+            <span>{{m.platformName}}</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Column 4: SEO Tags -->
+      <div class="footer-col">
+        <h4 class="footer-heading">Trend Etiketler</h4>
+        <div class="tag-cloud">
+          <span class="tag">#WebDesign</span>
+          <span class="tag">#Angular</span>
+          <span class="tag">#FullStack</span>
+          <span class="tag">#SEO</span>
+          <span class="tag">#Automation</span>
+          <span class="tag">#CRM</span>
+          <span class="tag">#UXDesign</span>
+          <span class="tag">#MobileApp</span>
+          <span class="tag">#Agency</span>
+          <span class="tag">#DigitalMarketing</span>
+          <span class="tag">#React</span>
+          <span class="tag">#Frontend</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

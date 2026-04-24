@@ -1,0 +1,53 @@
+# .NET / C#
+**/bin/
+**/obj/
+**/.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Node & Angular
+**/node_modules/
+**/dist/
+**/.angular/
+**/out-tsc/
+npm-debug.log
+yarn-error.log
+package-lock.json
+
+# Python
+**/__pycache__/
+*.py[cod]
+*$py.class
+**/.venv/
+**/venv/
+ENV/
+env/
+python_uploads/
+
+# IDE / Editor
+**/.vscode/
+**/.idea/
+*.swp
+*.sublime-project
+*.sublime-workspace
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Secrets & Environment
+.env
+.env.*
+appsettings.Development.json
+appsettings.Local.json
+*.pfx
+*.pem
+
+# Docker overrides
+docker-compose.override.yml
+
+# Logs
+logs/
+*.log
