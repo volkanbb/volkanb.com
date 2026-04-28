@@ -20,10 +20,6 @@ export const routes: Routes = [
     loadComponent: () => import('./features/kuafor/kuafor.component').then(c => c.KuaforComponent)
   },
   {
-    path: 'kafe',
-    loadComponent: () => import('./features/kafe/kafe.component').then(c => c.KafeComponent)
-  },
-  {
     path: 'ecommerce',
     loadComponent: () => import('./features/ecommerce/ecommerce.component').then(c => c.EcommerceComponent)
   },

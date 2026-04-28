@@ -51,6 +51,16 @@ services:
       db:
         condition: service_started
 
+  restoran-app:
+    build:
+      context: ./Apps/RestoranWebProje
+      dockerfile: Dockerfile
+    expose:
+      - 80
+    labels:
+      - "coolify.managed=true"
+      - "traefik.http.services.restoran-app.loadbalancer.server.port=80"
+
   frontend:
     build:
       context: ./Frontend
