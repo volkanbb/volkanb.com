@@ -119,6 +119,7 @@
   color: rgba(255, 255, 255, 0.9);
   font-family: var(--font-sans);
   letter-spacing: -0.01em;
+  white-space: pre-wrap; /* Textarea'dan gelen satır atlamalarını korur */
 }
 
 ::ng-deep .article-body-text {
