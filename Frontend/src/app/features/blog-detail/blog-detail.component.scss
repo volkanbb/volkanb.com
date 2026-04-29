@@ -179,7 +179,11 @@
   filter: blur(120px);
 }
 
-.btn-quote {
+.btn-quote-sticky {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 999;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -194,7 +198,7 @@
   transition: all 0.3s ease;
   
   &:hover {
-    transform: translateY(-3px);
+    transform: translateY(-3px) scale(1.05);
     box-shadow: 0 15px 35px rgba(37, 211, 102, 0.6);
   }
   

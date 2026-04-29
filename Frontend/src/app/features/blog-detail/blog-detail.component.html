@@ -34,14 +34,6 @@
           <h1 class="article-title">{{post.title}}</h1>
           
           <p class="article-summary" *ngIf="post.summary">{{post.summary}}</p>
-          
-          <!-- Teklif At Butonu -->
-          <div style="margin-top: 2rem;">
-            <a [href]="waLink" target="_blank" rel="noopener noreferrer" class="btn-quote">
-              <span class="material-symbols-outlined">chat</span>
-              Teklif At
-            </a>
-          </div>
         </div>
       </div>
     </header>
@@ -60,4 +52,10 @@
   </main>
 
   <app-footer *ngIf="post"></app-footer>
+
+  <!-- Sticky Teklif At Butonu -->
+  <a *ngIf="post" [href]="waLink" target="_blank" rel="noopener noreferrer" class="btn-quote-sticky">
+    <span class="material-symbols-outlined">chat</span>
+    Teklif At
+  </a>
 </div>
