@@ -178,3 +178,28 @@
   opacity: 0.15;
   filter: blur(120px);
 }
+
+.btn-quote {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-decoration: none;
+  box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(37, 211, 102, 0.6);
+  }
+  
+  .material-symbols-outlined {
+    font-size: 1.4rem;
+  }
+}
+

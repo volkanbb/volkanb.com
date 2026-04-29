@@ -73,4 +73,11 @@ export class BlogDetailComponent implements OnInit {
     if (!path) return '';
     return path.startsWith('http') ? path : `${this.apiBaseUrl}${path}`;
   }
+
+  get waLink(): string {
+    if (!this.contactInfo?.content) return '#';
+    const phone = this.contactInfo.content.replace(/\D/g, '');
+    const message = encodeURIComponent(`Merhaba, "${this.post?.title}" yazınız/hizmetiniz hakkında teklif almak istiyorum.`);
+    return `https://wa.me/${phone}?text=${message}`;
+  }
 }
