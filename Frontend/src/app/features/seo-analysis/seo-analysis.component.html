@@ -11,18 +11,18 @@
     <div class="bg-blur blur-secondary bottom-right" style="opacity: 0.15; filter: blur(150px);"></div>
 
     <div class="section-container relative z-10" style="padding: 5rem 1.5rem;">
-      
-      <!-- Header aligned to left, inside a container -->
-      <div class="mb-14" style="max-width: 800px; margin-left: auto; margin-right: auto; text-align: left;">
-        <span class="eyebrow" style="letter-spacing: 0.2em; display: block; margin-bottom: 1rem;">Performans & Görünürlük</span>
-        <h1 class="section-title" style="font-size: 3.5rem; margin-bottom: 1rem; letter-spacing: -0.02em;">SEO Analiz Aracı</h1>
-        <p style="color: rgba(255,255,255,0.7); max-width: 650px; font-size: 1.1rem; line-height: 1.7;">
-          Web sitenizin teknik altyapısını, içerik kalitesini ve hızını analiz ederek arama motorlarındaki görünürlüğünüzü artırın.
-        </p>
-      </div>
+      <!-- Search Box with Header -->
+      <div class="search-container premium-card relative overflow-hidden" style="max-width: 900px; margin: 0 auto; padding: 4rem 3.5rem;">
+        
+        <!-- Header inside the card -->
+        <div class="mb-10" style="text-align: left;">
+          <span class="eyebrow" style="letter-spacing: 0.2em; display: block; margin-bottom: 1rem;">Performans & Görünürlük</span>
+          <h1 class="section-title" style="font-size: 3.5rem; margin-bottom: 1.25rem; letter-spacing: -0.02em;">SEO Analiz Aracı</h1>
+          <p style="color: rgba(255,255,255,0.7); max-width: 700px; font-size: 1.15rem; line-height: 1.7;">
+            Web sitenizin teknik altyapısını, içerik kalitesini ve hızını analiz ederek arama motorlarındaki görünürlüğünüzü artırın.
+          </p>
+        </div>
 
-      <!-- Search Box -->
-      <div class="search-container premium-card relative overflow-hidden" style="max-width: 800px; margin: 0 auto; padding: 2.5rem;">
         <form (ngSubmit)="startAnalysis()" style="display: flex; flex-direction: column; gap: 1.25rem;">
           <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: stretch;">
             <div class="input-wrapper" style="flex: 1 1 300px; position: relative;">
@@ -51,7 +51,7 @@
         </form>
 
         <!-- Error & Countdown -->
-        <div *ngIf="error" class="mt-6 p-5 premium-error flex items-start gap-4">
+        <div *ngIf="error" class="mt-8 p-5 premium-error flex items-start gap-4">
           <span class="material-symbols-outlined" style="color: #ef4444; font-size: 2rem;">warning</span>
           <div>
             <p style="color: #ef4444; font-weight: 600; font-size: 1.1rem; margin-bottom: 0.5rem;">{{error}}</p>
@@ -63,10 +63,10 @@
       </div>
 
       <!-- Results Area -->
-      <div *ngIf="result" class="results-container mt-16 animate-fade-in" style="max-width: 1200px; margin-left: auto; margin-right: auto;">
+      <div *ngIf="result" class="results-container animate-fade-in" style="max-width: 1200px; margin-left: auto; margin-right: auto; margin-top: 6rem;">
         
         <!-- Main Score Dashboard -->
-        <div class="premium-card mb-12" style="padding: 3rem;">
+        <div class="premium-card mb-16" style="padding: 3rem;">
           <div style="display: flex; flex-wrap: wrap; gap: 3rem; align-items: center; justify-content: space-between;">
             <div style="flex: 1 1 300px;">
                <span class="eyebrow" style="display: block; margin-bottom: 1rem;">Analiz Sonucu</span>
@@ -83,7 +83,7 @@
         </div>
 
         <!-- Categories Grid -->
-        <div class="grid-3 mb-12" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem;">
+        <div class="grid-3 mb-16" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 3rem;">
           
           <!-- Tech Score -->
           <div class="premium-card category-card" style="display: flex; flex-direction: column;">
