@@ -5,6 +5,7 @@ import { RouterLink } from '@angular/router';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
 import { FooterComponent } from '../../shared/components/footer/footer.component';
 import { SeoAnalysisService, SeoAnalysisResult, SeoAnalysisError } from '../../core/services/seo-analysis.service';
+import { AdminService } from '../../core/services/admin.service';
 import { Title, Meta } from '@angular/platform-browser';
 
 @Component({
@@ -20,6 +21,7 @@ export class SeoAnalysisComponent implements OnInit, OnDestroy {
   result: SeoAnalysisResult | null = null;
   error: string | null = null;
   history: SeoAnalysisResult[] = [];
+  contactInfo: any = null;
 
   // Countdown timer
   countdownSeconds: number = 0;
@@ -37,13 +39,18 @@ export class SeoAnalysisComponent implements OnInit, OnDestroy {
   constructor(
     private seoService: SeoAnalysisService,
     private titleService: Title,
-    private metaService: Meta
+    private metaService: Meta,
+    private adminService: AdminService
   ) {}
 
   ngOnInit() {
     this.titleService.setTitle('Ücretsiz SEO Analizi | VOLKANB');
     this.metaService.updateTag({ name: 'description', content: 'Web sitenizin SEO performansını ücretsiz analiz edin. Teknik SEO, İçerik ve Performans hatalarını anında görün.' });
     this.loadHistory();
+    
+    this.adminService.getSiteContent('ContactInfo').subscribe(data => {
+      this.contactInfo = data;
+    });
   }
 
   ngOnDestroy() {
@@ -141,5 +148,12 @@ export class SeoAnalysisComponent implements OnInit, OnDestroy {
       case 'Warning': return '#f59e0b';
       default: return '#3b82f6';
     }
+  }
+
+  get waLink(): string {
+    if (!this.contactInfo?.content) return '#';
+    const phone = this.contactInfo.content.replace(/\D/g, '');
+    const message = encodeURIComponent(`SEO analiz raporumu inceledim, web sitemi düzeltmek/optimize etmek için teklif almak istiyorum.`);
+    return `https://wa.me/${phone}?text=${message}`;
   }
 }
