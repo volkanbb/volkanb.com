@@ -55,6 +55,10 @@ export class SeoAnalysisService {
       );
   }
 
+  getLogs(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/logs`);
+  }
+
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errRes: SeoAnalysisError = {
       status: error.status,

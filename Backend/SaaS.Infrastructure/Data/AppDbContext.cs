@@ -18,6 +18,7 @@ public class AppDbContext : DbContext
     public DbSet<DemoProject> DemoProjects { get; set; }
     public DbSet<ContactMessage> ContactMessages { get; set; }
     public DbSet<PortfolioService> PortfolioServices { get; set; }
+    public DbSet<SeoAnalysisLog> SeoAnalysisLogs { get; set; }
 
     public DbSet<SocialMedia> SocialMedias { get; set; }
 

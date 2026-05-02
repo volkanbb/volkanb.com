@@ -170,12 +170,12 @@ public class SeoAnalysisService : ISeoAnalysisService
         }
     }
 
-    private void AnalyzeInternalLinks(HtmlDocument doc, Uri baseUri, SeoAnalysisResultDto result)
+    private async Task AnalyzeInternalLinks(HtmlDocument doc, Uri baseUri, SeoAnalysisResultDto result)
     {
         var links = doc.DocumentNode.SelectNodes("//a[@href]");
         if (links == null) return;
 
-        var internalLinks = new HashSet<string>();
+        var internalLinks = new List<string>();
         foreach (var link in links)
         {
             var href = link.GetAttributeValue("href", "");
@@ -184,19 +184,29 @@ public class SeoAnalysisService : ISeoAnalysisService
             try
             {
                 var absUri = new Uri(baseUri, href);
-                if (absUri.Host == baseUri.Host)
+                if (absUri.Host == baseUri.Host && !internalLinks.Contains(absUri.ToString()))
                 {
                     internalLinks.Add(absUri.ToString());
-                    if (internalLinks.Count >= 5) break; // Limit internal link check
+                    if (internalLinks.Count >= 5) break;
                 }
+            }
+            catch { }
+        }
+
+        // Crawl them briefly
+        foreach (var link in internalLinks)
+        {
+            try
+            {
+                using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(2));
+                var resp = await _httpClient.GetAsync(link, cts.Token);
+                result.InternalLinksChecked.Add($"{link} (Status: {(int)resp.StatusCode})");
             }
             catch
             {
-                // Ignore parsing errors
+                result.InternalLinksChecked.Add($"{link} (Status: Timeout/Error)");
             }
         }
-
-        result.InternalLinksChecked = internalLinks.ToList();
     }
 
     private void CalculateScore(SeoAnalysisResultDto result)

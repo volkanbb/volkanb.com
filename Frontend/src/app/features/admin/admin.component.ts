@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { AdminService } from '../../core/services/admin.service';
+import { SeoAnalysisService } from '../../core/services/seo-analysis.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
@@ -37,6 +38,9 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
               Bildirimler 
               <span class="noti-badge" *ngIf="unreadCount > 0">{{unreadCount}}</span>
             </a>
+          </li>
+          <li>
+            <a (click)="setActiveTab('seo')" [class.active]="activeTab === 'seo'">SEO Analizleri</a>
           </li>
           <li>
             <a (click)="setActiveTab('settings')" [class.active]="activeTab === 'settings'">İletişim & Sosyal Medya</a>
@@ -295,6 +299,42 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
           </div>
         </div>
 
+        <!-- SEO Logs Section -->
+        <div *ngIf="activeTab === 'seo'" class="fade-in">
+          <div class="page-header">
+            <h1>SEO Analiz Geçmişi</h1>
+            <p>Sitede yapılan tüm SEO analizlerini ve sonuçlarını buradan takip edebilirsiniz.</p>
+          </div>
+
+          <div class="admin-card">
+            <div class="blog-list">
+              <table style="width: 100%; border-collapse: collapse; color: #fff;">
+                <thead>
+                  <tr style="text-align: left; border-bottom: 2px solid var(--admin-border);">
+                    <th style="padding: 1rem;">Tarih</th>
+                    <th style="padding: 1rem;">URL</th>
+                    <th style="padding: 1rem;">Skor</th>
+                    <th style="padding: 1rem;">IP Adresi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let log of seoLogs" style="border-bottom: 1px solid var(--admin-border); transition: background 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                    <td style="padding: 1rem; font-size: 0.9rem;">{{log.analyzedAt | date:'short'}}</td>
+                    <td style="padding: 1rem; font-weight: 600; color: var(--admin-primary);">{{log.url}}</td>
+                    <td style="padding: 1rem;">
+                      <span [style.color]="getScoreColor(log.score)" style="font-weight: 800; font-size: 1.1rem;">{{log.score}}</span>
+                    </td>
+                    <td style="padding: 1rem; color: var(--admin-text-muted); font-size: 0.85rem;">{{log.ipAddress}}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div *ngIf="seoLogs.length === 0" class="empty-state">
+                <p>Henüz analiz kaydı bulunmuyor.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Settings Section -->
         <div *ngIf="activeTab === 'settings'" class="fade-in">
           <div class="page-header">
@@ -538,6 +578,8 @@ export class AdminComponent implements OnInit {
   notifications: any[] = [];
   unreadCount = 0;
 
+  seoLogs: any[] = [];
+
   isUploadingAbout = false;
   isUploadingBlog = false;
   isUploadingDemo = false;
@@ -545,6 +587,7 @@ export class AdminComponent implements OnInit {
 
   constructor(
     private adminService: AdminService,
+    private seoService: SeoAnalysisService,
     private authService: AuthService,
     private sanitizer: DomSanitizer
   ) {}
@@ -556,6 +599,7 @@ export class AdminComponent implements OnInit {
     this.loadPortfolioServices();
     this.loadSettings();
     this.loadNotifications();
+    this.loadSeoLogs();
   }
 
   loadPortfolioServices() {
@@ -611,6 +655,16 @@ export class AdminComponent implements OnInit {
         this.loadNotifications();
       });
     }
+  }
+
+  loadSeoLogs() {
+    this.seoService.getLogs().subscribe(res => this.seoLogs = res);
+  }
+
+  getScoreColor(score: number): string {
+    if (score >= 80) return '#10b981';
+    if (score >= 50) return '#f59e0b';
+    return '#ef4444';
   }
 
   setActiveTab(tab: string) {
