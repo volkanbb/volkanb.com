@@ -23,31 +23,29 @@
           </p>
         </div>
 
-        <form (ngSubmit)="startAnalysis()" style="display: flex; flex-direction: column; gap: 1.25rem;">
-          <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: stretch;">
-            <div class="input-wrapper" style="flex: 1 1 300px; position: relative;">
-               <span class="material-symbols-outlined absolute" style="left: 1.25rem; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,0.4);">link</span>
-               <input 
-                 type="url" 
-                 [(ngModel)]="urlToAnalyze" 
-                 name="url" 
-                 placeholder="Örn: https://www.siteadiniz.com" 
-                 required 
-                 class="premium-input" 
-                 [disabled]="isAnalyzing || countdownSeconds > 0"
-                 style="width: 100%; height: 100%; min-height: 60px; padding: 1rem 1rem 1rem 3.5rem; font-size: 1.1rem; box-sizing: border-box;"
-               />
-            </div>
-            <button 
-              type="submit" 
-              class="btn-primary" 
-              [disabled]="isAnalyzing || !urlToAnalyze || countdownSeconds > 0"
-              style="flex: 0 0 auto; display: flex; align-items: center; justify-content: center; padding: 0 2.5rem; min-height: 60px; border-radius: 0; font-weight: 800; font-size: 1.1rem; letter-spacing: 0.05em;">
-              <span class="material-symbols-outlined" style="margin-right: 0.75rem;" *ngIf="!isAnalyzing">analytics</span>
-              <span class="material-symbols-outlined rotating" style="margin-right: 0.75rem;" *ngIf="isAnalyzing">sync</span>
-              {{ isAnalyzing ? 'ANALİZ EDİLİYOR' : 'ANALİZİ BAŞLAT' }}
-            </button>
+        <form (ngSubmit)="startAnalysis()" style="display: flex; flex-direction: column; gap: 1.5rem; max-width: 100%;">
+          <div class="input-wrapper" style="position: relative; width: 100%;">
+             <span class="material-symbols-outlined absolute" style="left: 1.5rem; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,0.4); font-size: 1.5rem;">link</span>
+             <input 
+               type="url" 
+               [(ngModel)]="urlToAnalyze" 
+               name="url" 
+               placeholder="Örn: https://www.siteadiniz.com" 
+               required 
+               class="premium-input" 
+               [disabled]="isAnalyzing || countdownSeconds > 0"
+               style="width: 100%; height: 100%; min-height: 70px; padding: 1rem 1rem 1rem 4rem; font-size: 1.2rem; box-sizing: border-box; border-radius: 0;"
+             />
           </div>
+          <button 
+            type="submit" 
+            class="btn-primary" 
+            [disabled]="isAnalyzing || !urlToAnalyze || countdownSeconds > 0"
+            style="width: 100%; display: flex; align-items: center; justify-content: center; padding: 0 2.5rem; min-height: 70px; border-radius: 0; font-weight: 800; font-size: 1.2rem; letter-spacing: 0.1em; text-transform: uppercase;">
+            <span class="material-symbols-outlined" style="margin-right: 0.75rem; font-size: 1.5rem;" *ngIf="!isAnalyzing">analytics</span>
+            <span class="material-symbols-outlined rotating" style="margin-right: 0.75rem; font-size: 1.5rem;" *ngIf="isAnalyzing">sync</span>
+            {{ isAnalyzing ? 'ANALİZ EDİLİYOR' : 'ANALİZİ BAŞLAT' }}
+          </button>
         </form>
 
         <!-- Error & Countdown -->
@@ -217,15 +215,15 @@
             <div style="height: 1px; background: rgba(255,255,255,0.1); flex-grow: 1;"></div>
          </div>
          
-         <div class="flex gap-6 overflow-x-auto pb-6" style="scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.2) transparent;">
-            <div *ngFor="let item of history" (click)="loadFromHistory(item)" class="premium-card p-6 flex-shrink-0 cursor-pointer transition-all hover:border-primary" style="width: 300px; border-top: 4px solid var(--primary-color);">
-               <p class="text-sm mb-4 truncate" style="color: rgba(255,255,255,0.8); font-size: 1.05rem;" [title]="item.url">{{item.url}}</p>
-               <div class="flex justify-between items-end">
+         <div class="flex gap-6 overflow-x-auto pb-6 pt-2" style="scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.2) transparent;">
+            <div *ngFor="let item of history" (click)="loadFromHistory(item)" class="premium-card cursor-pointer transition-all hover:border-primary" style="width: 320px; flex-shrink: 0; padding: 1.5rem; border-top: 4px solid var(--primary-color); display: flex; flex-direction: column;">
+               <p class="mb-4 truncate" style="color: rgba(255,255,255,0.9); font-size: 1.1rem; font-weight: 600; margin: 0 0 1rem 0;" [title]="item.url">{{item.url}}</p>
+               <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: auto;">
                   <div>
-                     <span class="text-xs uppercase" style="color: rgba(255,255,255,0.4); display: block; margin-bottom: 0.4rem; letter-spacing: 0.1em;">Skor</span>
-                     <span class="font-black text-3xl" [style.color]="getScoreColor(item.score)">{{item.score}}</span>
+                     <span style="font-size: 0.8rem; text-transform: uppercase; color: rgba(255,255,255,0.5); display: block; margin-bottom: 0.4rem; letter-spacing: 0.1em;">Skor</span>
+                     <span style="font-weight: 900; font-size: 2.5rem; line-height: 1;" [style.color]="getScoreColor(item.score)">{{item.score}}</span>
                   </div>
-                  <span class="text-xs" style="color: rgba(255,255,255,0.3);">{{item.timestamp | date:'shortTime'}}</span>
+                  <span style="font-size: 0.9rem; color: rgba(255,255,255,0.4);">{{item.timestamp | date:'shortTime'}}</span>
                </div>
             </div>
          </div>
