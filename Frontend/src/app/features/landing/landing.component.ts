@@ -39,7 +39,7 @@ import { environment } from '../../../environments/environment';
               </p>
               <div class="hero-actions" style="display: flex; gap: 1rem; align-items: center;">
                 <a href="#projects" class="btn-primary flex-center shadow-glow">Tasarımları İncele</a>
-                <a routerLink="/seo-analiz" class="btn-outline flex-center shadow-glow" style="border-radius: 0; padding: 0.75rem 1.75rem;">Ücretsiz SEO Analizi</a>
+                <a routerLink="/seo-analiz" class="btn-seo flex-center shadow-glow">Ücretsiz SEO Analizi</a>
               </div>
             </div>
             <div class="hero-image-block" [style.--scroll-p]="scrollProgress">

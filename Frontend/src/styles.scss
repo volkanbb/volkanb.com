@@ -157,6 +157,32 @@ a {
 }
 .btn-outline:active { transform: scale(0.95); }
 
+.btn-seo {
+  background: rgba(255, 255, 255, 0.03);
+  color: #fff;
+  font-weight: 800;
+  padding: 1.25rem 2.5rem;
+  border-radius: 0px;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+}
+
+.btn-seo:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  background: rgba(176, 162, 255, 0.05);
+  transform: translateY(-3px);
+  box-shadow: 0 0 25px rgba(176, 162, 255, 0.2);
+}
+
 /* Footer styles has been moved to component-level (landing.component.scss) for modularity */
 
 /* Helper classes */
