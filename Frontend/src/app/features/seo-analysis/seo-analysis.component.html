@@ -11,38 +11,40 @@
     <div class="bg-blur blur-secondary bottom-right" style="opacity: 0.15; filter: blur(150px);"></div>
 
     <div class="section-container relative z-10" style="padding: 5rem 1.5rem;">
-      <div class="text-center mb-12">
-        <span class="eyebrow mx-auto" style="letter-spacing: 0.2em;">Performans & Görünürlük</span>
-        <h1 class="section-title text-center" style="font-size: 3.5rem; margin-bottom: 1.5rem; letter-spacing: -0.02em;">SEO Analiz Aracı</h1>
-        <p style="color: rgba(255,255,255,0.7); max-width: 650px; margin: 0 auto; font-size: 1.1rem; line-height: 1.7;">
+      
+      <!-- Header aligned to left, inside a container -->
+      <div class="mb-14" style="max-width: 800px; margin-left: auto; margin-right: auto; text-align: left;">
+        <span class="eyebrow" style="letter-spacing: 0.2em; display: block; margin-bottom: 1rem;">Performans & Görünürlük</span>
+        <h1 class="section-title" style="font-size: 3.5rem; margin-bottom: 1rem; letter-spacing: -0.02em;">SEO Analiz Aracı</h1>
+        <p style="color: rgba(255,255,255,0.7); max-width: 650px; font-size: 1.1rem; line-height: 1.7;">
           Web sitenizin teknik altyapısını, içerik kalitesini ve hızını analiz ederek arama motorlarındaki görünürlüğünüzü artırın.
         </p>
       </div>
 
       <!-- Search Box -->
       <div class="search-container premium-card relative overflow-hidden" style="max-width: 800px; margin: 0 auto; padding: 2.5rem;">
-        <form (ngSubmit)="startAnalysis()" class="flex flex-col gap-5">
-          <div class="flex gap-4" [class.flex-col]="false" style="flex-wrap: wrap;">
-            <div class="input-wrapper flex-grow relative">
-               <span class="material-symbols-outlined absolute" style="left: 1rem; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,0.4);">link</span>
+        <form (ngSubmit)="startAnalysis()" style="display: flex; flex-direction: column; gap: 1.25rem;">
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: stretch;">
+            <div class="input-wrapper" style="flex: 1 1 300px; position: relative;">
+               <span class="material-symbols-outlined absolute" style="left: 1.25rem; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,0.4);">link</span>
                <input 
                  type="url" 
                  [(ngModel)]="urlToAnalyze" 
                  name="url" 
                  placeholder="Örn: https://www.siteadiniz.com" 
                  required 
-                 class="premium-input w-full" 
+                 class="premium-input" 
                  [disabled]="isAnalyzing || countdownSeconds > 0"
-                 style="padding: 1.25rem 1.25rem 1.25rem 3rem;"
+                 style="width: 100%; height: 100%; min-height: 60px; padding: 1rem 1rem 1rem 3.5rem; font-size: 1.1rem; box-sizing: border-box;"
                />
             </div>
             <button 
               type="submit" 
-              class="btn-primary flex-center" 
+              class="btn-primary" 
               [disabled]="isAnalyzing || !urlToAnalyze || countdownSeconds > 0"
-              style="padding: 1.25rem 2.5rem; border-radius: 0; font-weight: 800; font-size: 1.1rem; letter-spacing: 0.05em; flex-shrink: 0; min-width: 200px;">
-              <span class="material-symbols-outlined mr-2" *ngIf="!isAnalyzing">analytics</span>
-              <span class="material-symbols-outlined mr-2 rotating" *ngIf="isAnalyzing">sync</span>
+              style="flex: 0 0 auto; display: flex; align-items: center; justify-content: center; padding: 0 2.5rem; min-height: 60px; border-radius: 0; font-weight: 800; font-size: 1.1rem; letter-spacing: 0.05em;">
+              <span class="material-symbols-outlined" style="margin-right: 0.75rem;" *ngIf="!isAnalyzing">analytics</span>
+              <span class="material-symbols-outlined rotating" style="margin-right: 0.75rem;" *ngIf="isAnalyzing">sync</span>
               {{ isAnalyzing ? 'ANALİZ EDİLİYOR' : 'ANALİZİ BAŞLAT' }}
             </button>
           </div>
@@ -61,20 +63,22 @@
       </div>
 
       <!-- Results Area -->
-      <div *ngIf="result" class="results-container mt-16 animate-fade-in">
+      <div *ngIf="result" class="results-container mt-16 animate-fade-in" style="max-width: 1200px; margin-left: auto; margin-right: auto;">
         
         <!-- Main Score Dashboard -->
-        <div class="premium-card mb-12 flex items-center justify-between" style="padding: 3rem; flex-wrap: wrap; gap: 3rem;">
-          <div class="flex-grow">
-             <span class="eyebrow">Analiz Sonucu</span>
-             <h2 style="font-size: 1.8rem; font-weight: 700; color: #fff; margin-bottom: 1rem; word-break: break-all;">{{result.url}}</h2>
-             <div class="progress-bar-container" style="height: 12px; background: rgba(255,255,255,0.05); width: 100%; max-width: 400px; margin-top: 1rem; border: 1px solid rgba(255,255,255,0.1);">
-                <div class="progress-bar-fill" [style.width]="result.score + '%'" [style.background]="getScoreColor(result.score)" style="height: 100%; transition: width 1s ease-out; box-shadow: 0 0 15px var(--score-color);"></div>
-             </div>
-          </div>
-          <div class="score-display flex-center flex-col" style="min-width: 200px; padding: 2rem; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.3); border-bottom: 4px solid var(--score-color);" [style.--score-color]="getScoreColor(result.score)">
-            <span style="font-size: 1rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.6); margin-bottom: 0.5rem;">Genel Skor</span>
-            <span style="font-size: 4.5rem; font-weight: 900; color: var(--score-color); line-height: 1; text-shadow: 0 0 20px rgba(var(--score-color-rgb), 0.5);">{{result.score}}</span>
+        <div class="premium-card mb-12" style="padding: 3rem;">
+          <div style="display: flex; flex-wrap: wrap; gap: 3rem; align-items: center; justify-content: space-between;">
+            <div style="flex: 1 1 300px;">
+               <span class="eyebrow" style="display: block; margin-bottom: 1rem;">Analiz Sonucu</span>
+               <h2 style="font-size: 1.8rem; font-weight: 700; color: #fff; margin-bottom: 1.5rem; word-break: break-all;">{{result.url}}</h2>
+               <div class="progress-bar-container" style="height: 12px; background: rgba(255,255,255,0.05); width: 100%; max-width: 400px; border: 1px solid rgba(255,255,255,0.1);">
+                  <div class="progress-bar-fill" [style.width]="result.score + '%'" [style.background]="getScoreColor(result.score)" style="height: 100%; transition: width 1s ease-out; box-shadow: 0 0 15px var(--score-color);"></div>
+               </div>
+            </div>
+            <div class="score-display" style="flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2.5rem; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.3); border-bottom: 4px solid var(--score-color); min-width: 250px;" [style.--score-color]="getScoreColor(result.score)">
+              <span style="font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.15em; color: rgba(255,255,255,0.6); margin-bottom: 0.75rem;">Genel Skor</span>
+              <span style="font-size: 5rem; font-weight: 900; color: var(--score-color); line-height: 1; text-shadow: 0 0 20px rgba(var(--score-color-rgb), 0.5);">{{result.score}}</span>
+            </div>
           </div>
         </div>
 
@@ -82,20 +86,20 @@
         <div class="grid-3 mb-12" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem;">
           
           <!-- Tech Score -->
-          <div class="premium-card category-card flex flex-col">
-            <div class="flex justify-between items-center mb-6">
-              <h3 class="flex items-center gap-3 m-0" style="font-size: 1.3rem; font-weight: 700;">
-                 <div class="icon-box" style="background: rgba(117, 86, 255, 0.1); padding: 0.5rem; border: 1px solid rgba(117, 86, 255, 0.2);">
+          <div class="premium-card category-card" style="display: flex; flex-direction: column;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; gap: 1rem;">
+              <h3 style="display: flex; align-items: center; gap: 1rem; margin: 0; font-size: 1.3rem; font-weight: 700;">
+                 <div class="icon-box" style="background: rgba(117, 86, 255, 0.1); padding: 0.5rem; border: 1px solid rgba(117, 86, 255, 0.2); display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; flex-shrink: 0;">
                     <span class="material-symbols-outlined icon-primary">settings</span>
                  </div>
-                 Teknik SEO
+                 <span style="white-space: nowrap;">Teknik SEO</span>
               </h3>
-              <span class="text-xl font-black" [style.color]="getScoreColor(result.technicalScore)">{{result.technicalScore}}</span>
+              <span class="text-2xl font-black" [style.color]="getScoreColor(result.technicalScore)">{{result.technicalScore}}</span>
             </div>
             <div class="progress-bar-container mb-8" style="height: 6px; background: rgba(255,255,255,0.05);">
                <div class="progress-bar-fill" [style.width]="result.technicalScore + '%'" [style.background]="getScoreColor(result.technicalScore)" style="height: 100%;"></div>
             </div>
-            <div class="flex flex-col gap-3 flex-grow">
+            <div style="display: flex; flex-direction: column; gap: 1rem; flex-grow: 1;">
               <div class="check-item flex items-center gap-4">
                  <span class="material-symbols-outlined" [style.color]="result.httpStatusCode === 200 ? '#10b981' : '#ef4444'">{{result.httpStatusCode === 200 ? 'check_circle' : 'cancel'}}</span>
                  <span class="text-gray-300">HTTP Status: <strong>{{result.httpStatusCode}}</strong></span>
@@ -120,20 +124,20 @@
           </div>
 
           <!-- Content Score -->
-          <div class="premium-card category-card flex flex-col">
-            <div class="flex justify-between items-center mb-6">
-              <h3 class="flex items-center gap-3 m-0" style="font-size: 1.3rem; font-weight: 700;">
-                 <div class="icon-box" style="background: rgba(117, 86, 255, 0.1); padding: 0.5rem; border: 1px solid rgba(117, 86, 255, 0.2);">
+          <div class="premium-card category-card" style="display: flex; flex-direction: column;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; gap: 1rem;">
+              <h3 style="display: flex; align-items: center; gap: 1rem; margin: 0; font-size: 1.3rem; font-weight: 700;">
+                 <div class="icon-box" style="background: rgba(117, 86, 255, 0.1); padding: 0.5rem; border: 1px solid rgba(117, 86, 255, 0.2); display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; flex-shrink: 0;">
                     <span class="material-symbols-outlined icon-primary">article</span>
                  </div>
-                 İçerik Kalitesi
+                 <span style="white-space: nowrap;">İçerik Kalitesi</span>
               </h3>
-              <span class="text-xl font-black" [style.color]="getScoreColor(result.contentScore)">{{result.contentScore}}</span>
+              <span class="text-2xl font-black" [style.color]="getScoreColor(result.contentScore)">{{result.contentScore}}</span>
             </div>
             <div class="progress-bar-container mb-8" style="height: 6px; background: rgba(255,255,255,0.05);">
                <div class="progress-bar-fill" [style.width]="result.contentScore + '%'" [style.background]="getScoreColor(result.contentScore)" style="height: 100%;"></div>
             </div>
-            <div class="flex flex-col gap-3 flex-grow">
+            <div style="display: flex; flex-direction: column; gap: 1rem; flex-grow: 1;">
               <div class="check-item flex items-center gap-4">
                  <span class="material-symbols-outlined" [style.color]="result.titleLength >= 30 && result.titleLength <= 60 ? '#10b981' : '#f59e0b'">{{result.titleLength >= 30 && result.titleLength <= 60 ? 'check_circle' : 'warning'}}</span>
                  <span class="text-gray-300">Başlık (<strong>{{result.titleLength}}</strong> kar.)</span>
@@ -158,24 +162,24 @@
           </div>
 
           <!-- Performance Score -->
-          <div class="premium-card category-card flex flex-col">
-            <div class="flex justify-between items-center mb-6">
-              <h3 class="flex items-center gap-3 m-0" style="font-size: 1.3rem; font-weight: 700;">
-                 <div class="icon-box" style="background: rgba(117, 86, 255, 0.1); padding: 0.5rem; border: 1px solid rgba(117, 86, 255, 0.2);">
+          <div class="premium-card category-card" style="display: flex; flex-direction: column;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; gap: 1rem;">
+              <h3 style="display: flex; align-items: center; gap: 1rem; margin: 0; font-size: 1.3rem; font-weight: 700;">
+                 <div class="icon-box" style="background: rgba(117, 86, 255, 0.1); padding: 0.5rem; border: 1px solid rgba(117, 86, 255, 0.2); display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; flex-shrink: 0;">
                     <span class="material-symbols-outlined icon-primary">speed</span>
                  </div>
-                 Performans
+                 <span style="white-space: nowrap;">Performans</span>
               </h3>
-              <span class="text-xl font-black" [style.color]="getScoreColor(result.performanceScore)">{{result.performanceScore}}</span>
+              <span class="text-2xl font-black" [style.color]="getScoreColor(result.performanceScore)">{{result.performanceScore}}</span>
             </div>
             <div class="progress-bar-container mb-8" style="height: 6px; background: rgba(255,255,255,0.05);">
                <div class="progress-bar-fill" [style.width]="result.performanceScore + '%'" [style.background]="getScoreColor(result.performanceScore)" style="height: 100%;"></div>
             </div>
-            <div class="text-center mt-auto mb-auto">
-              <div class="performance-dial inline-block relative mb-4" style="padding: 2rem; border: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.2);">
-                 <span class="material-symbols-outlined" style="font-size: 3rem; color: #3b82f6; margin-bottom: 1rem; display: block;">dns</span>
-                 <p style="font-size: 1rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;">Yanıt Süresi</p>
-                 <p style="font-size: 3rem; font-weight: 900; line-height: 1;" [style.color]="result.pageLoadTimeMs < 2000 ? '#10b981' : '#ef4444'">{{result.pageLoadTimeMs}}<span style="font-size: 1.2rem; margin-left: 0.2rem;">ms</span></p>
+            <div style="text-align: center; margin-top: auto; margin-bottom: auto;">
+              <div class="performance-dial inline-block relative mb-4" style="padding: 3rem; border: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.2);">
+                 <span class="material-symbols-outlined" style="font-size: 3.5rem; color: #3b82f6; margin-bottom: 1.5rem; display: block;">dns</span>
+                 <p style="font-size: 1.1rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;">Yanıt Süresi</p>
+                 <p style="font-size: 3.5rem; font-weight: 900; line-height: 1;" [style.color]="result.pageLoadTimeMs < 2000 ? '#10b981' : '#ef4444'">{{result.pageLoadTimeMs}}<span style="font-size: 1.2rem; margin-left: 0.2rem;">ms</span></p>
               </div>
             </div>
           </div>
@@ -183,19 +187,19 @@
 
         <!-- Issues List -->
         <div class="premium-card" *ngIf="result.issues && result.issues.length > 0">
-          <div class="flex items-center gap-3 mb-8 pb-4" style="border-bottom: 1px solid rgba(255,255,255,0.1);">
-             <span class="material-symbols-outlined" style="font-size: 2rem; color: #f59e0b;">report</span>
-             <h3 style="font-size: 1.6rem; margin: 0; font-weight: 700;">Optimizasyon Önerileri</h3>
+          <div class="flex items-center gap-4 mb-8 pb-5" style="border-bottom: 1px solid rgba(255,255,255,0.1); padding: 3rem 3rem 0 3rem;">
+             <span class="material-symbols-outlined" style="font-size: 2.5rem; color: #f59e0b;">report</span>
+             <h3 style="font-size: 1.8rem; margin: 0; font-weight: 700;">Optimizasyon Önerileri</h3>
           </div>
-          <div class="issues-list grid gap-4" style="grid-template-columns: 1fr;">
-            <div *ngFor="let issue of result.issues" class="issue-item p-6 flex items-start gap-5 transition-all" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); border-left: 4px solid;" [style.border-left-color]="getIssueColor(issue.type)">
-              <div class="icon-wrapper flex-center" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); flex-shrink: 0;">
-                 <span class="material-symbols-outlined" [style.color]="getIssueColor(issue.type)">{{getIssueIcon(issue.type)}}</span>
+          <div class="issues-list grid gap-5" style="grid-template-columns: 1fr; padding: 0 3rem 3rem 3rem;">
+            <div *ngFor="let issue of result.issues" class="issue-item p-6 flex items-start gap-6 transition-all" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); border-left: 4px solid;" [style.border-left-color]="getIssueColor(issue.type)">
+              <div class="icon-wrapper flex-center" style="width: 48px; height: 48px; background: rgba(255,255,255,0.05); flex-shrink: 0;">
+                 <span class="material-symbols-outlined" style="font-size: 1.5rem;" [style.color]="getIssueColor(issue.type)">{{getIssueIcon(issue.type)}}</span>
               </div>
               <div class="flex-grow">
-                <p style="font-weight: 600; color: #e5e7eb; font-size: 1.1rem; margin-bottom: 0.5rem;">{{issue.message}}</p>
+                <p style="font-weight: 600; color: #e5e7eb; font-size: 1.15rem; margin-bottom: 0.75rem;">{{issue.message}}</p>
                 <div class="flex items-center gap-3">
-                  <span class="text-xs font-bold uppercase tracking-wider px-2 py-1" style="background: rgba(255,255,255,0.05);" [style.color]="getIssueColor(issue.type)">{{issue.type}}</span>
+                  <span class="text-xs font-bold uppercase tracking-wider px-3 py-1" style="background: rgba(255,255,255,0.05);" [style.color]="getIssueColor(issue.type)">{{issue.type}}</span>
                   <span class="text-sm" style="color: rgba(255,255,255,0.4);">{{issue.category}}</span>
                 </div>
               </div>
@@ -206,20 +210,20 @@
       </div>
 
       <!-- Session History -->
-      <div *ngIf="history.length > 0" class="history-section mt-16">
-         <div class="flex items-center gap-4 mb-6">
+      <div *ngIf="history.length > 0" class="history-section mt-16" style="max-width: 1200px; margin-left: auto; margin-right: auto;">
+         <div class="flex items-center gap-5 mb-8">
             <div style="height: 1px; background: rgba(255,255,255,0.1); flex-grow: 1;"></div>
-            <h3 class="text-center" style="color: rgba(255,255,255,0.5); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.2em; margin: 0;">Geçmiş Analizler</h3>
+            <h3 class="text-center" style="color: rgba(255,255,255,0.5); font-size: 1rem; text-transform: uppercase; letter-spacing: 0.2em; margin: 0;">Geçmiş Analizler</h3>
             <div style="height: 1px; background: rgba(255,255,255,0.1); flex-grow: 1;"></div>
          </div>
          
-         <div class="flex gap-5 overflow-x-auto pb-6" style="scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.2) transparent;">
-            <div *ngFor="let item of history" (click)="loadFromHistory(item)" class="premium-card p-5 flex-shrink-0 cursor-pointer transition-all hover:border-primary" style="width: 280px; border-top: 3px solid var(--primary-color);">
-               <p class="text-sm mb-3 truncate" style="color: rgba(255,255,255,0.8);" [title]="item.url">{{item.url}}</p>
+         <div class="flex gap-6 overflow-x-auto pb-6" style="scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.2) transparent;">
+            <div *ngFor="let item of history" (click)="loadFromHistory(item)" class="premium-card p-6 flex-shrink-0 cursor-pointer transition-all hover:border-primary" style="width: 300px; border-top: 4px solid var(--primary-color);">
+               <p class="text-sm mb-4 truncate" style="color: rgba(255,255,255,0.8); font-size: 1.05rem;" [title]="item.url">{{item.url}}</p>
                <div class="flex justify-between items-end">
                   <div>
-                     <span class="text-xs uppercase" style="color: rgba(255,255,255,0.4); display: block; margin-bottom: 0.2rem;">Skor</span>
-                     <span class="font-black text-2xl" [style.color]="getScoreColor(item.score)">{{item.score}}</span>
+                     <span class="text-xs uppercase" style="color: rgba(255,255,255,0.4); display: block; margin-bottom: 0.4rem; letter-spacing: 0.1em;">Skor</span>
+                     <span class="font-black text-3xl" [style.color]="getScoreColor(item.score)">{{item.score}}</span>
                   </div>
                   <span class="text-xs" style="color: rgba(255,255,255,0.3);">{{item.timestamp | date:'shortTime'}}</span>
                </div>
