@@ -18,7 +18,7 @@
       </div>
 
       <!-- Search Box -->
-      <div class="search-container shadow-glow outline-border bg-surface relative overflow-hidden" style="max-width: 700px; margin: 0 auto; padding: 2rem; border-radius: 16px;">
+      <div class="search-container shadow-glow outline-border bg-surface relative overflow-hidden" style="max-width: 700px; margin: 0 auto; padding: 2rem; border-radius: 0;">
         <form (ngSubmit)="startAnalysis()" class="flex flex-col gap-4">
           <div class="flex gap-4" [class.flex-col]="false" style="flex-wrap: wrap;">
             <input 
@@ -29,13 +29,13 @@
               required 
               class="flex-grow" 
               [disabled]="isAnalyzing || countdownSeconds > 0"
-              style="padding: 1rem; border-radius: 8px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); color: #fff; font-size: 1rem;"
+              style="padding: 1rem; border-radius: 0; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); color: #fff; font-size: 1rem;"
             />
             <button 
               type="submit" 
               class="btn-primary flex-center shadow-glow" 
               [disabled]="isAnalyzing || !urlToAnalyze || countdownSeconds > 0"
-              style="padding: 1rem 2rem; border-radius: 8px; font-weight: 700; flex-shrink: 0;">
+              style="padding: 1rem 2rem; border-radius: 0; font-weight: 700; flex-shrink: 0;">
               <span class="material-symbols-outlined mr-2" *ngIf="!isAnalyzing">search</span>
               <span class="material-symbols-outlined mr-2 rotating" *ngIf="isAnalyzing">sync</span>
               {{ isAnalyzing ? 'Analiz Ediliyor...' : 'Analizi Başlat' }}
@@ -44,12 +44,12 @@
         </form>
 
         <!-- Error & Countdown -->
-        <div *ngIf="error" class="mt-6 p-4 rounded-lg outline-border flex items-center gap-4" style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);">
+        <div *ngIf="error" class="mt-6 p-4  outline-border flex items-center gap-4" style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);">
           <span class="material-symbols-outlined" style="color: #ef4444; font-size: 2rem;">warning</span>
           <div>
             <p style="color: #ef4444; font-weight: 600; margin-bottom: 0.25rem;">{{error}}</p>
             <p *ngIf="countdownSeconds > 0" style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">
-              Yeni analiz için kalan süre: <strong style="color: #fff; font-family: monospace; font-size: 1.1rem; background: rgba(0,0,0,0.5); padding: 0.2rem 0.5rem; border-radius: 4px;">{{countdownDisplay}}</strong>
+              Yeni analiz için kalan süre: <strong style="color: #fff; font-family: monospace; font-size: 1.1rem; background: rgba(0,0,0,0.5); padding: 0.2rem 0.5rem; border-radius: 0;">{{countdownDisplay}}</strong>
             </p>
           </div>
         </div>
@@ -59,9 +59,9 @@
       <div *ngIf="result" class="results-container mt-12 animate-fade-in">
         
         <!-- Main Score -->
-        <div class="score-board outline-border bg-surface shadow-glow text-center" style="padding: 3rem; border-radius: 24px; margin-bottom: 2rem;">
+        <div class="score-board outline-border bg-surface shadow-glow text-center" style="padding: 3rem; border-radius: 0; margin-bottom: 2rem;">
           <h2 style="font-size: 1.5rem; color: rgba(255,255,255,0.8); margin-bottom: 1rem;">Genel SEO Skoru</h2>
-          <div class="score-circle mx-auto relative flex-center" [style.--score-color]="getScoreColor(result.score)" style="width: 150px; height: 150px; border-radius: 50%; border: 8px solid var(--score-color); background: rgba(0,0,0,0.3);">
+          <div class="score-circle mx-auto relative flex-center" [style.--score-color]="getScoreColor(result.score)" style="width: 150px; height: 150px; border-radius: 0; border: 8px solid var(--score-color); background: rgba(0,0,0,0.3);">
             <span style="font-size: 3.5rem; font-weight: 900; color: var(--score-color);">{{result.score}}</span>
           </div>
           <p style="margin-top: 1.5rem; font-size: 1.2rem; font-weight: 600; color: #fff;">{{result.url}}</p>
@@ -70,10 +70,10 @@
         <!-- Categories Grid -->
         <div class="grid-3 mb-8" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
           <!-- Tech Score -->
-          <div class="category-card outline-border bg-surface p-6" style="border-radius: 16px;">
+          <div class="category-card outline-border bg-surface p-6" style="border-radius: 0;">
             <div class="flex justify-between items-center mb-4">
               <h3 class="flex items-center gap-2 m-0" style="font-size: 1.2rem;"><span class="material-symbols-outlined icon-primary">settings</span> Teknik SEO</h3>
-              <span class="badge" [style.background]="getScoreColor(result.technicalScore) + '33'" [style.color]="getScoreColor(result.technicalScore)" style="padding: 4px 12px; border-radius: 20px; font-weight: 700;">{{result.technicalScore}} / 100</span>
+              <span class="badge" [style.background]="getScoreColor(result.technicalScore) + '33'" [style.color]="getScoreColor(result.technicalScore)" style="padding: 4px 12px; border-radius: 0; font-weight: 700;">{{result.technicalScore}} / 100</span>
             </div>
             <ul class="check-list" style="list-style: none; padding: 0; margin: 0;">
               <li class="flex items-center gap-3 mb-2"><span class="material-symbols-outlined" [style.color]="result.httpStatusCode === 200 ? '#10b981' : '#ef4444'">{{result.httpStatusCode === 200 ? 'check_circle' : 'cancel'}}</span> HTTP Status: {{result.httpStatusCode}}</li>
@@ -85,10 +85,10 @@
           </div>
 
           <!-- Content Score -->
-          <div class="category-card outline-border bg-surface p-6" style="border-radius: 16px;">
+          <div class="category-card outline-border bg-surface p-6" style="border-radius: 0;">
             <div class="flex justify-between items-center mb-4">
               <h3 class="flex items-center gap-2 m-0" style="font-size: 1.2rem;"><span class="material-symbols-outlined icon-primary">article</span> İçerik</h3>
-              <span class="badge" [style.background]="getScoreColor(result.contentScore) + '33'" [style.color]="getScoreColor(result.contentScore)" style="padding: 4px 12px; border-radius: 20px; font-weight: 700;">{{result.contentScore}} / 100</span>
+              <span class="badge" [style.background]="getScoreColor(result.contentScore) + '33'" [style.color]="getScoreColor(result.contentScore)" style="padding: 4px 12px; border-radius: 0; font-weight: 700;">{{result.contentScore}} / 100</span>
             </div>
             <ul class="check-list" style="list-style: none; padding: 0; margin: 0;">
               <li class="flex items-center gap-3 mb-2"><span class="material-symbols-outlined" [style.color]="result.titleLength >= 30 && result.titleLength <= 60 ? '#10b981' : '#f59e0b'">{{result.titleLength >= 30 && result.titleLength <= 60 ? 'check_circle' : 'warning'}}</span> Başlık Uzunluğu ({{result.titleLength}})</li>
@@ -100,10 +100,10 @@
           </div>
 
           <!-- Performance Score -->
-          <div class="category-card outline-border bg-surface p-6" style="border-radius: 16px;">
+          <div class="category-card outline-border bg-surface p-6" style="border-radius: 0;">
             <div class="flex justify-between items-center mb-4">
               <h3 class="flex items-center gap-2 m-0" style="font-size: 1.2rem;"><span class="material-symbols-outlined icon-primary">speed</span> Performans</h3>
-              <span class="badge" [style.background]="getScoreColor(result.performanceScore) + '33'" [style.color]="getScoreColor(result.performanceScore)" style="padding: 4px 12px; border-radius: 20px; font-weight: 700;">{{result.performanceScore}} / 100</span>
+              <span class="badge" [style.background]="getScoreColor(result.performanceScore) + '33'" [style.color]="getScoreColor(result.performanceScore)" style="padding: 4px 12px; border-radius: 0; font-weight: 700;">{{result.performanceScore}} / 100</span>
             </div>
             <div class="text-center mt-6">
               <span class="material-symbols-outlined mb-2" style="font-size: 3rem; color: #3b82f6;">timer</span>
@@ -114,10 +114,10 @@
         </div>
 
         <!-- Issues List -->
-        <div class="issues-section outline-border bg-surface p-6" style="border-radius: 16px;" *ngIf="result.issues && result.issues.length > 0">
+        <div class="issues-section outline-border bg-surface p-6" style="border-radius: 0;" *ngIf="result.issues && result.issues.length > 0">
           <h3 class="mb-6 flex items-center gap-2" style="font-size: 1.5rem;"><span class="material-symbols-outlined">report</span> Geliştirme Önerileri</h3>
           <div class="issues-list flex flex-col gap-3">
-            <div *ngFor="let issue of result.issues" class="issue-item p-4 rounded outline-border flex items-start gap-4 bg-surface hover:bg-opacity-80 transition-colors">
+            <div *ngFor="let issue of result.issues" class="issue-item p-4 outline-border flex items-start gap-4 bg-surface hover:bg-opacity-80 transition-colors">
               <span class="material-symbols-outlined" [style.color]="getIssueColor(issue.type)">{{getIssueIcon(issue.type)}}</span>
               <div>
                 <p style="font-weight: 600; color: #fff; margin-bottom: 0.2rem;">{{issue.message}}</p>
@@ -137,7 +137,7 @@
       <div *ngIf="history.length > 0" class="history-section mt-12">
          <h3 class="mb-4 text-center" style="color: rgba(255,255,255,0.6); font-size: 1rem; text-transform: uppercase; letter-spacing: 0.1em;">Son Analizler</h3>
          <div class="flex gap-4 overflow-x-auto pb-4" style="scrollbar-width: thin; scrollbar-color: var(--primary-color) transparent;">
-            <div *ngFor="let item of history" (click)="loadFromHistory(item)" class="history-card outline-border bg-surface p-4 flex-shrink-0 cursor-pointer hover:shadow-glow transition-all" style="width: 250px; border-radius: 12px; border-left: 4px solid var(--primary-color);">
+            <div *ngFor="let item of history" (click)="loadFromHistory(item)" class="history-card outline-border bg-surface p-4 flex-shrink-0 cursor-pointer hover:shadow-glow transition-all" style="width: 250px; border-radius: 0; border-left: 4px solid var(--primary-color);">
                <p class="text-sm text-gray-400 mb-1 truncate" [title]="item.url">{{item.url}}</p>
                <div class="flex justify-between items-center">
                   <span class="font-bold text-lg" [style.color]="getScoreColor(item.score)">Skor: {{item.score}}</span>

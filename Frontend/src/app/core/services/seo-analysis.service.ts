@@ -44,7 +44,7 @@ export interface SeoAnalysisError {
   providedIn: 'root'
 })
 export class SeoAnalysisService {
-  private apiUrl = `${environment.apiUrl}/api/Seo`;
+  private apiUrl = `${environment.apiUrl}/Seo`;
 
   constructor(private http: HttpClient) {}
 
