@@ -14,6 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddMemoryCache();
 
 // Configure CORS for Angular Frontend
 builder.Services.AddCors(options =>
@@ -57,6 +58,7 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ISiteContentRepository, SiteContentRepository>();
 builder.Services.AddScoped<IBlogPostRepository, BlogPostRepository>();
 builder.Services.AddScoped<IDemoProjectRepository, DemoProjectRepository>();
+builder.Services.AddScoped<ISeoAnalysisService, SeoAnalysisService>();
 
 var app = builder.Build();
 

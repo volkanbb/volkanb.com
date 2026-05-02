@@ -37,8 +37,9 @@ import { environment } from '../../../environments/environment';
               <p class="hero-subtitle">
                 Kuaförler, kafeler ve e-ticaret markaları için estetik dokunuşlar sunarken; işletmenize özel web yazılımları ve yüksek performanslı dijital sistemler inşa ediyorum. Modern tasarım vizyonumla markanızı dijital dünyada ayrıcalıklı bir konuma taşıyalım.
               </p>
-              <div class="hero-actions">
+              <div class="hero-actions" style="display: flex; gap: 1rem; align-items: center;">
                 <a href="#projects" class="btn-primary flex-center shadow-glow">Tasarımları İncele</a>
+                <a routerLink="/seo-analiz" class="btn-outline flex-center shadow-glow" style="border-radius: 4px; padding: 0.75rem 1.75rem;">Ücretsiz SEO Analizi</a>
               </div>
             </div>
             <div class="hero-image-block" [style.--scroll-p]="scrollProgress">
@@ -304,7 +305,8 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
     { label: 'Hizmetler', url: '#services' },
     { label: 'Örnek Projeler', url: '#projects' },
     { label: 'Hakkımda', url: '#about' },
-    { label: 'Blog', url: '#blog' }
+    { label: 'Blog', url: '#blog' },
+    { label: 'SEO Analizi', url: '/seo-analiz' }
   ];
 
   private autoScrollInterval: any;

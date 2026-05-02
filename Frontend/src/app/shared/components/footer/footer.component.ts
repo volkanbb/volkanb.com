@@ -21,7 +21,8 @@ export class FooterComponent implements OnInit {
     { label: 'Hizmetler', url: '/#services' },
     { label: 'Örnek Projeler', url: '/#projects' },
     { label: 'Hakkımda', url: '/#about' },
-    { label: 'Blog', url: '/#blog' }
+    { label: 'Blog', url: '/#blog' },
+    { label: 'SEO Analizi', url: '/seo-analiz' }
   ];
 
   constructor(

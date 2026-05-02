@@ -26,5 +26,9 @@ export const routes: Routes = [
   {
     path: 'blog/:id',
     loadComponent: () => import('./features/blog-detail/blog-detail.component').then(c => c.BlogDetailComponent)
+  },
+  {
+    path: 'seo-analiz',
+    loadComponent: () => import('./features/seo-analysis/seo-analysis.component').then(c => c.SeoAnalysisComponent)
   }
 ];
