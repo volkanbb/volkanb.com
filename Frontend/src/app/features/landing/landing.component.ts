@@ -191,8 +191,18 @@ import { environment } from '../../../environments/environment';
                      class="video-card outline-border" 
                      [ngClass]="{'vertical-video': video.isVertical, 'horizontal-video': !video.isVertical}">
                   <div class="iframe-container">
-                    <iframe 
-                      [src]="getYouTubeEmbedUrl(video.youtubeUrl)" 
+                    <!-- Thumbnail Cover -->
+                    <div *ngIf="!video.isPlaying" class="video-cover" (click)="playVideo(video)">
+                      <img [src]="getYouTubeThumbnail(video.youtubeUrl)" alt="Video Cover" class="video-thumbnail" />
+                      <div class="play-overlay">
+                        <div class="play-button shadow-glow">
+                          <span class="material-symbols-outlined">play_arrow</span>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Iframe -->
+                    <iframe *ngIf="video.isPlaying"
+                      [src]="getYouTubeEmbedUrl(video.youtubeUrl, true)" 
                       title="YouTube video player" 
                       frameborder="0" 
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
@@ -507,40 +517,44 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
     el.scrollBy({ left: scrollAmount, behavior: 'smooth' });
   }
 
-  getYouTubeEmbedUrl(url: string): SafeHtml {
+  getYouTubeVideoId(url: string): string {
     if (!url) return '';
     let videoId = '';
     
-    // Parse normal youtube url
     if (url.includes('youtube.com/watch?v=')) {
       videoId = url.split('v=')[1];
       const ampersandPosition = videoId.indexOf('&');
-      if (ampersandPosition !== -1) {
-        videoId = videoId.substring(0, ampersandPosition);
-      }
-    } 
-    // Parse shorts url
-    else if (url.includes('youtube.com/shorts/')) {
+      if (ampersandPosition !== -1) videoId = videoId.substring(0, ampersandPosition);
+    } else if (url.includes('youtube.com/shorts/')) {
       videoId = url.split('shorts/')[1];
       const queryParamPosition = videoId.indexOf('?');
-      if (queryParamPosition !== -1) {
-        videoId = videoId.substring(0, queryParamPosition);
-      }
-    } 
-    // Parse youtu.be url
-    else if (url.includes('youtu.be/')) {
+      if (queryParamPosition !== -1) videoId = videoId.substring(0, queryParamPosition);
+    } else if (url.includes('youtu.be/')) {
       videoId = url.split('youtu.be/')[1];
       const queryParamPosition = videoId.indexOf('?');
-      if (queryParamPosition !== -1) {
-        videoId = videoId.substring(0, queryParamPosition);
-      }
-    }
-
-    if (videoId) {
-      return this.sanitizer.bypassSecurityTrustResourceUrl(`https://www.youtube.com/embed/${videoId}`);
+      if (queryParamPosition !== -1) videoId = videoId.substring(0, queryParamPosition);
     }
     
-    // Fallback if unable to parse
+    return videoId;
+  }
+
+  getYouTubeThumbnail(url: string): string {
+    const videoId = this.getYouTubeVideoId(url);
+    if (!videoId) return '';
+    return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+  }
+
+  getYouTubeEmbedUrl(url: string, autoplay: boolean = false): SafeHtml {
+    const videoId = this.getYouTubeVideoId(url);
+    if (videoId) {
+      let embedUrl = `https://www.youtube.com/embed/${videoId}?rel=0`;
+      if (autoplay) embedUrl += '&autoplay=1';
+      return this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
+    }
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
+
+  playVideo(video: any) {
+    video.isPlaying = true;
   }
 }
