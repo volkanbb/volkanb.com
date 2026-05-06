@@ -116,4 +116,21 @@ export class AdminService {
   deleteSocialMedia(id: number) {
     return this.http.delete(`${this.apiUrl}/SocialMedia/${id}`);
   }
+
+  // Videos
+  getPortfolioVideos() {
+    return this.http.get<any[]>(`${this.apiUrl}/PortfolioVideo`);
+  }
+
+  createPortfolioVideo(video: any) {
+    return this.http.post<any>(`${this.apiUrl}/PortfolioVideo`, video);
+  }
+
+  updatePortfolioVideo(id: number, video: any) {
+    return this.http.put(`${this.apiUrl}/PortfolioVideo/${id}`, video);
+  }
+
+  deletePortfolioVideo(id: number) {
+    return this.http.delete(`${this.apiUrl}/PortfolioVideo/${id}`);
+  }
 }

@@ -31,6 +31,9 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
             <a (click)="setActiveTab('services')" [class.active]="activeTab === 'services'">Hizmetler</a>
           </li>
           <li>
+            <a (click)="setActiveTab('videos')" [class.active]="activeTab === 'videos'">Videolar</a>
+          </li>
+          <li>
             <a (click)="setActiveTab('blog')" [class.active]="activeTab === 'blog'">Son Bloglar / Çıkarılanlar</a>
           </li>
           <li>
@@ -233,6 +236,68 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
             <div class="action-row">
               <button (click)="saveDemo()" class="btn-primary" [disabled]="isUploadingDemo">Kaydet</button>
               <button (click)="showDemoForm = false" class="btn-secondary">İptal</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Videos Section -->
+        <div *ngIf="activeTab === 'videos'" class="fade-in">
+          <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end;">
+            <div>
+              <h1>Video Yönetimi</h1>
+              <p>Ana sayfadaki video slider bölümünü buradan yönetebilirsiniz.</p>
+            </div>
+            <button (click)="openVideoForm()" class="btn-success">+ Yeni Video</button>
+          </div>
+
+          <!-- Video List -->
+          <div *ngIf="!showVideoForm" class="blog-list">
+            <div *ngFor="let v of portfolioVideos" class="admin-card blog-item">
+              <div class="blog-info" style="display: flex; align-items: center; gap: 1.5rem;">
+                <div class="icon-preview" style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
+                  <span class="material-symbols-outlined" style="color: var(--admin-primary);">{{ v.isVertical ? 'smartphone' : 'desktop_windows' }}</span>
+                </div>
+                <div>
+                  <h3 style="margin:0">{{v.title}}</h3>
+                  <p style="margin:4px 0 0 0; color:#64748b; font-size: 0.9rem;">
+                    Sıra: {{v.order}} | Tip: {{v.isVertical ? 'Dikey (Shorts)' : 'Yatay (Standart)'}} |
+                    <a [href]="v.youtubeUrl" target="_blank" style="color: var(--admin-primary)">Linki Gör</a>
+                  </p>
+                </div>
+              </div>
+              <div class="blog-actions">
+                <button (click)="editVideo(v)" class="btn-warning">Düzenle</button>
+                <button (click)="deleteVideo(v.id!)" class="btn-danger">Sil</button>
+              </div>
+            </div>
+            <div *ngIf="portfolioVideos.length === 0" class="empty-state">
+              <p>Henüz video eklenmemiş.</p>
+            </div>
+          </div>
+
+          <!-- Video Form -->
+          <div *ngIf="showVideoForm" class="admin-card fade-in">
+            <h2>{{ currentVideo.id ? 'Videoyu Düzenle' : 'Yeni Video Ekle' }}</h2>
+            <hr class="divider"/>
+            <div class="form-group">
+              <label>Video Başlığı</label>
+              <input type="text" [(ngModel)]="currentVideo.title" class="modern-input" placeholder="Örn: Proje Tanıtımı" />
+            </div>
+            <div class="form-group">
+              <label>YouTube Linki (Tam URL)</label>
+              <input type="text" [(ngModel)]="currentVideo.youtubeUrl" class="modern-input" placeholder="Örn: https://www.youtube.com/watch?v=..." />
+            </div>
+            <div class="form-group" style="display: flex; align-items: center; gap: 10px;">
+              <input type="checkbox" [(ngModel)]="currentVideo.isVertical" id="isVert" style="width: 20px; height: 20px; accent-color: var(--admin-primary);" />
+              <label for="isVert" style="margin: 0; cursor: pointer;">Bu video dikey (Shorts/Reels) formatındadır.</label>
+            </div>
+            <div class="form-group">
+              <label>Sıralama (Küçük olan önce görünür)</label>
+              <input type="number" [(ngModel)]="currentVideo.order" class="modern-input" />
+            </div>
+            <div class="action-row">
+              <button (click)="saveVideo()" class="btn-primary">Kaydet</button>
+              <button (click)="showVideoForm = false" class="btn-secondary">İptal</button>
             </div>
           </div>
         </div>
@@ -575,6 +640,10 @@ export class AdminComponent implements OnInit {
   showSocialForm = false;
   currentSocial: any = {};
 
+  portfolioVideos: any[] = [];
+  showVideoForm = false;
+  currentVideo: any = { isVertical: false, isActive: true, order: 1 };
+
   notifications: any[] = [];
   unreadCount = 0;
 
@@ -600,6 +669,7 @@ export class AdminComponent implements OnInit {
     this.loadSettings();
     this.loadNotifications();
     this.loadSeoLogs();
+    this.loadVideos();
   }
 
   loadPortfolioServices() {
@@ -716,6 +786,41 @@ export class AdminComponent implements OnInit {
   deleteSocial(id: number) {
     if(confirm('Sosyal medya linkini silmek istediğinize emin misiniz?')) {
       this.adminService.deleteSocialMedia(id).subscribe(() => this.loadSettings());
+    }
+  }
+
+  // Videos
+  loadVideos() {
+    this.adminService.getPortfolioVideos().subscribe(res => this.portfolioVideos = res);
+  }
+
+  openVideoForm() {
+    this.currentVideo = { title: '', youtubeUrl: '', isVertical: false, order: 1, isActive: true };
+    this.showVideoForm = true;
+  }
+
+  editVideo(video: any) {
+    this.currentVideo = { ...video };
+    this.showVideoForm = true;
+  }
+
+  saveVideo() {
+    if (this.currentVideo.id) {
+      this.adminService.updatePortfolioVideo(this.currentVideo.id, this.currentVideo).subscribe(() => {
+        this.loadVideos();
+        this.showVideoForm = false;
+      });
+    } else {
+      this.adminService.createPortfolioVideo(this.currentVideo).subscribe(() => {
+        this.loadVideos();
+        this.showVideoForm = false;
+      });
+    }
+  }
+
+  deleteVideo(id: number) {
+    if(confirm('Videoyu silmek istediğinize emin misiniz?')) {
+      this.adminService.deletePortfolioVideo(id).subscribe(() => this.loadVideos());
     }
   }
 

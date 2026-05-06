@@ -21,6 +21,7 @@ public class AppDbContext : DbContext
     public DbSet<SeoAnalysisLog> SeoAnalysisLogs { get; set; }
 
     public DbSet<SocialMedia> SocialMedias { get; set; }
+    public DbSet<PortfolioVideo> PortfolioVideos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -159,6 +160,29 @@ public class AppDbContext : DbContext
             new PortfolioService { Id = 2, Title = "WEB SİTESİ HİZMETİ", Description = "Modern, hızlı ve dönüşüm odaklı web siteleri tasarlıyoruz.", Icon = "web" },
             new PortfolioService { Id = 3, Title = "MOBİL UYGULAMA HİZMETİ", Description = "iOS ve Android platformları için yüksek performanslı mobil çözümler.", Icon = "smartphone" },
             new PortfolioService { Id = 4, Title = "OTOMASYON HİZMETİ", Description = "İş süreçlerinizi optimize edin ve verimliliğinizi artırın.", Icon = "robot" }
+        );
+
+        modelBuilder.Entity<PortfolioVideo>().HasData(
+            new PortfolioVideo
+            {
+                Id = 1,
+                Title = "Örnek Dikey Video",
+                YoutubeUrl = "https://www.youtube.com/shorts/3O7zR1ZpEaw",
+                IsVertical = true,
+                Order = 1,
+                IsActive = true,
+                CreatedAt = DateTime.UtcNow
+            },
+            new PortfolioVideo
+            {
+                Id = 2,
+                Title = "Örnek Yatay Video",
+                YoutubeUrl = "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                IsVertical = false,
+                Order = 2,
+                IsActive = true,
+                CreatedAt = DateTime.UtcNow
+            }
         );
     }
 }

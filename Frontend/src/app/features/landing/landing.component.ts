@@ -173,6 +173,41 @@ import { environment } from '../../../environments/environment';
           </div>
         </section>
 
+        <!-- Videos Section -->
+        <section id="videos" class="videos-section relative overflow-hidden" [hidden]="portfolioVideos.length === 0" style="padding: 5rem 0;">
+          <div class="bg-blur blur-secondary slider-blur" style="top: 20%; left: 10%;"></div>
+          <div class="section-container relative z-10">
+            <div class="text-center mb-12">
+              <span class="eyebrow mx-auto">Video İçerikler</span>
+              <h2 class="section-title text-center">İzlemeye Değer.</h2>
+            </div>
+            <div class="slider-container-wrapper relative">
+              <div class="slider-controls absolute-controls" *ngIf="portfolioVideos.length > 3">
+                  <button (click)="scroll(videoSlider, -1)" class="btn-scroll btn-prev"><span class="material-symbols-outlined">west</span></button>
+                  <button (click)="scroll(videoSlider, 1)" class="btn-scroll btn-next"><span class="material-symbols-outlined">east</span></button>
+              </div>
+              <div class="slider-container videos-slider" #videoSlider>
+                <div *ngFor="let video of portfolioVideos" 
+                     class="video-card outline-border" 
+                     [ngClass]="{'vertical-video': video.isVertical, 'horizontal-video': !video.isVertical}">
+                  <div class="iframe-container">
+                    <iframe 
+                      [src]="getYouTubeEmbedUrl(video.youtubeUrl)" 
+                      title="YouTube video player" 
+                      frameborder="0" 
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                      allowfullscreen>
+                    </iframe>
+                  </div>
+                  <div class="video-info">
+                    <h3 class="video-title">{{video.title}}</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <!-- Blog Section -->
         <section id="blog" class="blog-section relative overflow-hidden">
           <div class="bg-blur blur-primary slider-blur"></div>
@@ -293,6 +328,7 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   blogPosts: any[] = [];
   demoProjects: any[] = [];
   portfolioServices: any[] = [];
+  portfolioVideos: any[] = [];
   apiBaseUrl = environment.apiUrl;
 
   contactData = { name: '', email: '', message: '' };
@@ -305,6 +341,7 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
     { label: 'Hizmetler', url: '#services' },
     { label: 'Örnek Projeler', url: '#projects' },
     { label: 'Hakkımda', url: '#about' },
+    { label: 'Videolar', url: '#videos' },
     { label: 'Blog', url: '#blog' },
     { label: 'SEO Analizi', url: '/seo-analiz' }
   ];
@@ -356,6 +393,7 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
       this.demoProjects = res;
     });
     this.adminService.getPortfolioServices().subscribe(res => this.portfolioServices = res);
+    this.adminService.getPortfolioVideos().subscribe(res => this.portfolioVideos = res);
     this.addStructuredData();
   }
 
@@ -467,5 +505,42 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   scroll(el: HTMLElement, direction: number) {
     const scrollAmount = el.clientWidth * 0.8 * direction;
     el.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+  }
+
+  getYouTubeEmbedUrl(url: string): SafeHtml {
+    if (!url) return '';
+    let videoId = '';
+    
+    // Parse normal youtube url
+    if (url.includes('youtube.com/watch?v=')) {
+      videoId = url.split('v=')[1];
+      const ampersandPosition = videoId.indexOf('&');
+      if (ampersandPosition !== -1) {
+        videoId = videoId.substring(0, ampersandPosition);
+      }
+    } 
+    // Parse shorts url
+    else if (url.includes('youtube.com/shorts/')) {
+      videoId = url.split('shorts/')[1];
+      const queryParamPosition = videoId.indexOf('?');
+      if (queryParamPosition !== -1) {
+        videoId = videoId.substring(0, queryParamPosition);
+      }
+    } 
+    // Parse youtu.be url
+    else if (url.includes('youtu.be/')) {
+      videoId = url.split('youtu.be/')[1];
+      const queryParamPosition = videoId.indexOf('?');
+      if (queryParamPosition !== -1) {
+        videoId = videoId.substring(0, queryParamPosition);
+      }
+    }
+
+    if (videoId) {
+      return this.sanitizer.bypassSecurityTrustResourceUrl(`https://www.youtube.com/embed/${videoId}`);
+    }
+    
+    // Fallback if unable to parse
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 }
