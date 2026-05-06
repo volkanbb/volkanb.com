@@ -182,7 +182,7 @@ import { environment } from '../../../environments/environment';
               <h2 class="section-title text-center">İzlemeye Değer.</h2>
             </div>
             <div class="slider-container-wrapper relative">
-              <div class="slider-controls absolute-controls" *ngIf="portfolioVideos.length > 3">
+              <div class="slider-controls absolute-controls" [hidden]="portfolioVideos.length <= 1">
                   <button (click)="scroll(videoSlider, -1)" class="btn-scroll btn-prev"><span class="material-symbols-outlined">west</span></button>
                   <button (click)="scroll(videoSlider, 1)" class="btn-scroll btn-next"><span class="material-symbols-outlined">east</span></button>
               </div>
