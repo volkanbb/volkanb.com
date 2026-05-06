@@ -191,23 +191,15 @@ import { environment } from '../../../environments/environment';
                      class="video-card outline-border" 
                      [ngClass]="{'vertical-video': video.isVertical, 'horizontal-video': !video.isVertical}">
                   <div class="iframe-container">
-                    <!-- Thumbnail Cover -->
-                    <div *ngIf="!video.isPlaying" class="video-cover" (click)="playVideo(video)">
+                    <!-- Thumbnail Cover with Link -->
+                    <a [href]="video.youtubeUrl" target="_blank" rel="noopener" class="video-cover">
                       <img [src]="getYouTubeThumbnail(video.youtubeUrl)" alt="Video Cover" class="video-thumbnail" />
                       <div class="play-overlay">
                         <div class="play-button shadow-glow">
                           <span class="material-symbols-outlined">play_arrow</span>
                         </div>
                       </div>
-                    </div>
-                    <!-- Iframe -->
-                    <iframe *ngIf="video.isPlaying"
-                      [src]="getYouTubeEmbedUrl(video.youtubeUrl, true)" 
-                      title="YouTube video player" 
-                      frameborder="0" 
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                      allowfullscreen>
-                    </iframe>
+                    </a>
                   </div>
                   <div class="video-info">
                     <h3 class="video-title">{{video.title}}</h3>
@@ -542,19 +534,5 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
     const videoId = this.getYouTubeVideoId(url);
     if (!videoId) return '';
     return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
-  }
-
-  getYouTubeEmbedUrl(url: string, autoplay: boolean = false): SafeHtml {
-    const videoId = this.getYouTubeVideoId(url);
-    if (videoId) {
-      let embedUrl = `https://www.youtube.com/embed/${videoId}?rel=0`;
-      if (autoplay) embedUrl += '&autoplay=1';
-      return this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
-    }
-    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
-  }
-
-  playVideo(video: any) {
-    video.isPlaying = true;
   }
 }
